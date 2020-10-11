@@ -262,7 +262,7 @@ section > p {
   font-family: 'David Libre', serif;
   box-sizing: border-box;
   padding: 10px;
-  z-index: 5000;
+  z-index: 10000;
   width: 100%;
   text-align: center;
   position: relative;
