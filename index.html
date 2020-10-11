@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vivi in ONEderland</title>
+        <meta charset="UTF-8" />
+        <link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="style.css" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    </head>
+    <body>
+        <div id="app">
+            <section>
+                <div class="illustration left alice" data-label="drink_me">
+                    <img data-src="/images/drink_me.png" alt="drink-me" />
+                </div>
+                <p>If I had a party of my own</p>
+            </section>
+            <section>
+                <div class="illustration right caterpillar" data-label="caterpillar">
+                    <img data-src="/images/caterpillar.png" alt="drink-me" />
+                </div>
+                <p>Everything would be nonsense</p>
+            </section>
+            <section>
+                <div class="illustration left flamingo" data-label="flamingo">
+                    <img data-src="/images/flamingo.png" alt="drink-me" />
+                </div>
+                <p>Nothing would be what it is</p>
+            </section>
+            <section>
+                <div class="illustration right hatter" data-label="hatter">
+                    <img data-src="/images/hatter.png" alt="drink-me" />
+                </div>
+                <p>Because everything would be what it isn't</p>
+            </section>
+            <section>
+                <div class="illustration left rabbit" data-label="white_rabbit">
+                    <img data-src="/images/white-rabbit.png" alt="drink-me" />
+                </div>
+                <p>It may be your <ins>un</ins>birthday</p>
+            </section>
+            <section>
+                <div class="illustration right cards" data-label="cards">
+                    <img data-src="/images/cards.png" alt="drink-me" />
+                </div>
+                <p class="birthday">But it's my 1st birthday!</p>
+            </section>
+            <article>
+                <div class="border">
+                    <h2>Be our guest!</h2>
+                    <p>Join us for Vivien's <ins>First</ins> Birthday</p>
+                </div>
+            </article>
+            <div id="background-container" aria-hidden="true"></div>
+        </div>
+        <script>
+          !async function() {
+            document.getElementById('background-container')
+              .innerHTML = await fetch(`/background.html`)
+              .then((d) => d.text());
+
+            document.querySelectorAll('[data-src]').forEach((el) => {
+              fetch(el.dataset.src).then(() => {
+                el.src = el.dataset.src;
+              });
+            });
+          }();
+        </script>
+    </body>
+</html>
