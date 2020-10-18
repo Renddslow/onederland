@@ -49,6 +49,44 @@
                 <div class="border">
                     <h2>Be our guest!</h2>
                     <p>Join us for Vivien's <ins>First</ins> Birthday</p>
+                    <hr />
+                    <p class="blue">Brunch &amp; Games</p>
+                    <p>10:30 AM thru 12:00 PM</p>
+                    <p>1408 N 144th Street<br />Omaha, NE 68116</p>
+                    <hr />
+                    <p class="blue">Let Us Know You're Coming</p>
+                    <form id="rsvp">
+                        <div class="row">
+                            <div class="form-control">
+                                <label for="first-name">First name</label>
+                                <input type="text" name="firstName" id="first-name" autocomplete="given-name" />
+                            </div>
+                            <div class="form-control">
+                                <label for="last-name">Last name</label>
+                                <input type="text" name="lastName" id="last-name" autocomplete="family-name" />
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label for="email">Email</label>
+                            <input type="email" name="lastName" id="email" autocomplete="email" />
+                        </div>
+                        <div class="form-control">
+                            <label for="count">How many are coming with you?</label>
+                            <input type="number" name="count" id="count" value="1" />
+                        </div>
+                        <div class="row">
+                            <button id="yes" type="submit">I'll be there</button>
+                            <button id="no" type="submit">Regrets</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="outer-borders">
+                    <span class="corner corner-nw"></span>
+                    <span class="corner corner-ne"></span>
+                    <span class="corner corner-sw"></span>
+                    <span class="corner corner-se"></span>
+                    <span class="edges"></span>
+                    <span class="tops"></span>
                 </div>
             </article>
             <div id="background-container" aria-hidden="true"></div>
@@ -64,6 +102,11 @@
                 el.src = el.dataset.src;
               });
             });
+
+            document.getElementById('rsvp').addEventListener('submit', (e) => {
+              e.preventDefault();
+              console.log(e.submitter)
+            })
           }();
         </script>
     </body>
