@@ -58,12 +58,12 @@
                     <form id="rsvp">
                         <div class="row">
                             <div class="form-control">
-                                <label for="first-name">First name</label>
-                                <input type="text" name="firstName" id="first-name" autocomplete="given-name" />
+                                <label for="firstName">First name</label>
+                                <input type="text" name="firstName" id="firstName" autocomplete="given-name" />
                             </div>
                             <div class="form-control">
-                                <label for="last-name">Last name</label>
-                                <input type="text" name="lastName" id="last-name" autocomplete="family-name" />
+                                <label for="lastName">Last name</label>
+                                <input type="text" name="lastName" id="lastName" autocomplete="family-name" />
                             </div>
                         </div>
                         <div class="form-control">
@@ -103,10 +103,57 @@
               });
             });
 
+            const parseSearchParams = (p) => p ? p.replace(/\?/, '').split('&').reduce((acc, q) => {
+              const [k, v] = q.split('=');
+              acc[k] = typeof v !== 'undefined' ? v : true;
+              return acc;
+            }, {}) : {};
+
+            const { to } = parseSearchParams(window.location.search);
+
+            if (to) {
+              const data = JSON.parse(atob(to));
+              Object.keys(data).forEach((k) => {
+                document.getElementById(k).value = data[k];
+              });
+            }
+
             document.getElementById('rsvp').addEventListener('submit', (e) => {
               e.preventDefault();
-              console.log(e.submitter)
-            })
+              const [firstName, lastName, email, count] = e.target;
+              const coming = e.submitter.id === 'yes';
+
+              const payload = {
+                coming,
+                firstName: firstName.value,
+                lastName: lastName.value,
+                email: email.value,
+                count: coming ? parseInt((count.value || '0'), 10) : 0,
+              };
+
+              Array.prototype.slice.call(e.target.elements).forEach((el) => {
+                el.disabled = true;
+              });
+
+              const img = new Image();
+              img.src = coming ? 'https://media0.giphy.com/media/Cjv37jPMVJw0o/giphy.gif?cid=ecf05e4790a2dba744f59d2fd6b2e12cdc9367f09f92effa&rid=giphy.gif' : 'https://media3.giphy.com/media/J2q8zK4HgrT5C/giphy.gif?cid=ecf05e47au9wh65miaa8ohujom198kyurtapmg7eq8cmomvv&rid=giphy.gif';
+
+              fetch('/.netlify/functions/rsvp', {
+                method: 'POST',
+                body: JSON.stringify(payload),
+              }).then(() => {
+                Array.prototype.slice.call(e.target.children).forEach((el) => {
+                  el.style.display = 'none';
+                });
+                const p = document.createElement('p');
+                p.innerText = coming ? `We'll see you there!` : `Bummer!`;
+                e.target.append(p);
+
+                const image = document.createElement('img');
+                image.src = img.src;
+                e.target.append(image);
+              });
+            });
           }();
         </script>
     </body>
