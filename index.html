@@ -138,10 +138,11 @@
               });
             }
 
-            document.getElementById('rsvp').addEventListener('submit', (e) => {
+            const submitHandler = (e) => {
               e.preventDefault();
-              const [firstName, lastName, email, count] = e.target;
-              const coming = e.submitter.id === 'yes';
+              const form = document.querySelector('form');
+              const [firstName, lastName, email, count] = form;
+              const coming = e.target.id === 'yes';
 
               const payload = {
                 coming,
@@ -151,7 +152,7 @@
                 count: coming ? parseInt((count.value || '0'), 10) : 0,
               };
 
-              Array.prototype.slice.call(e.target.elements).forEach((el) => {
+              Array.prototype.slice.call(form.elements).forEach((el) => {
                 el.disabled = true;
               });
 
@@ -162,18 +163,21 @@
                 method: 'POST',
                 body: JSON.stringify(payload),
               }).then(() => {
-                Array.prototype.slice.call(e.target.children).forEach((el) => {
+                Array.prototype.slice.call(form.children).forEach((el) => {
                   el.style.display = 'none';
                 });
                 const p = document.createElement('p');
                 p.innerText = coming ? `We'll see you there!` : `Bummer!`;
-                e.target.append(p);
+                form.append(p);
 
                 const image = document.createElement('img');
                 image.src = img.src;
-                e.target.append(image);
+                form.append(image);
               });
-            });
+            }
+
+            document.getElementById('yes').addEventListener('click', submitHandler);
+            document.getElementById('no').addEventListener('click', submitHandler);
           }();
         </script>
     </body>
